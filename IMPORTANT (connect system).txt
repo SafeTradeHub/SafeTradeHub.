@@ -1,0 +1,10 @@
+let order = {
+    type: type,
+    amount: amount,
+    status: "Pending",
+    date: new Date().toLocaleString()
+};
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+orders.push(order);
+localStorage.setItem("orders", JSON.stringify(orders));

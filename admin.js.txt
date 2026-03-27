@@ -1,0 +1,41 @@
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+function renderOrders() {
+    let container = document.getElementById("orders");
+    container.innerHTML = "";
+
+    if (orders.length === 0) {
+        container.innerHTML = "<p>No orders yet</p>";
+        return;
+    }
+
+    orders.forEach((order, index) => {
+        let div = document.createElement("div");
+        div.className = "order-card";
+
+        div.innerHTML = `
+            <p><b>Type:</b> ${order.type}</p>
+            <p><b>Amount:</b> ${order.amount}</p>
+            <p><b>Status:</b> ${order.status}</p>
+            <p><b>Date:</b> ${order.date}</p>
+            <button onclick="completeOrder(${index})">Mark Completed</button>
+            <button onclick="deleteOrder(${index})" style="background:red;">Delete</button>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+function completeOrder(index) {
+    orders[index].status = "Completed";
+    localStorage.setItem("orders", JSON.stringify(orders));
+    renderOrders();
+}
+
+function deleteOrder(index) {
+    orders.splice(index, 1);
+    localStorage.setItem("orders", JSON.stringify(orders));
+    renderOrders();
+}
+
+renderOrders();
